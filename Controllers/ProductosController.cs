@@ -25,8 +25,22 @@ namespace Api_Ventas.Controllers
         public IEnumerable<Producto> Get(int? id)
         {
             
-            return !id.HasValue ? _context.Productos.ToList() :
-                     _context.Productos.Where(s => s.IdProducto == id);;
+            return !id.HasValue ? _context.Productos.Where(p => p.Estatus != "Inactivo").ToList() :
+                     _context.Productos.Where(s => s.IdProducto == id && s.Estatus != "Inactivo");
+        }
+
+        [HttpDelete("{id}")]
+
+        public bool Delete(int id){
+
+            var res = _context.Productos.Where(p => p.IdProducto == id).ToList();
+            
+            res.ForEach(p => p.Estatus = "Inactivo" );
+
+            _context.SaveChanges();
+            
+            return (_context.Productos.Where(p => p.IdProducto == id && p.Estatus == "Activo" ).Count()
+                                                                                                 == 0);
         }
 
         [HttpPost]

@@ -44,7 +44,7 @@ CREATE TABLE Producto(
 	costo_pz REAL not null,
 	costo_pz_mayoreo REAL,
 	estatus varchar(30) not null,
-	CONSTRAINT Ck_est_pro CHECK (estatus in('Activo','Inactvo'))
+	CONSTRAINT Ck_est_pro CHECK (estatus in('Activo','Inactivo'))
 	
 );
 
