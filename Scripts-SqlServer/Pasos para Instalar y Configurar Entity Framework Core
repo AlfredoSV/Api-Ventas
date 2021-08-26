@@ -1,0 +1,16 @@
+Instalar paquetes Entity Framework Sql Server y Entity Framework Tools 
+
+dotnet tool install --global dotnet-ef
+
+
+dotnet ef dbcontext scaffold "Server=localhost;database=Ventas;user id=sa; password=Limon1007;" Microsoft.EntityFrameworkCore.SqlServer -o Modiput
+
+Configurar en .json la cadena de conexion
+
+Inyectar dependencia en Startup.cs
+
+Recibir en Constructor de Controlador
+
+Manipular le contexto
+
+
