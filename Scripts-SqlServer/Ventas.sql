@@ -1,21 +1,4 @@
-CREATE DATABASE [Ventas]
-ON
-PRIMARY
-(
-  NAME = N'Ventas',
-  FILENAME = N'/var/opt/mssql/data\Ventas.ndf',
-  SIZE = 8MB,
-  MAXSIZE = UNLIMITED,
-  FILEGROWTH = 64MB
-)
-LOG ON
-(
-  NAME = N'Ventas_log',
-  FILENAME = N'/var/opt/mssql/data\Ventas_log.ldf',
-  SIZE = 8MB,
-  MAXSIZE = UNLIMITED,
-  FILEGROWTH = 64MB
-)
+CREATE DATABASE [Ventas];
 GO
 Use Ventas;
 
