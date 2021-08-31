@@ -1,3 +1,3 @@
 # Api-Ventas
 
-![Screenshot](capturas/cap1.png)
+![cap1](../master/capturas/cap1.png)
