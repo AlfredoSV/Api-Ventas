@@ -30,7 +30,7 @@ namespace Api_Ventas.Model
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer(@"Server=ALFREDO\ALFREDO;database=Ventas;user id=sa; password=Limon1007;");
+                optionsBuilder.UseSqlServer("Server=localhost;database=Ventas;integrated security=True;");
             }
         }
 
@@ -112,7 +112,7 @@ namespace Api_Ventas.Model
             modelBuilder.Entity<DetalleTicket>(entity =>
             {
                 entity.HasKey(e => e.IdDetalleTicket)
-                    .HasName("PK__Detalle___E0FF4B0EE627A272");
+                    .HasName("PK__Detalle___E0FF4B0E1B9EE50F");
 
                 entity.ToTable("Detalle_ticket");
 

@@ -35,7 +35,10 @@ namespace Api_Ventas
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Api_Ventas", Version = "v1" });
             });
 
-            services.AddDbContext<VentasContext>();
+
+            services.AddDbContext<VentasContext>(options =>
+                 options.UseSqlServer(Configuration.GetConnectionString("db")));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
