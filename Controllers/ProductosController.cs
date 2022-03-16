@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Api_Ventas.Model;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Api_Ventas.Dtos;
 
 namespace Api_Ventas.Controllers
 {
@@ -22,40 +24,40 @@ namespace Api_Ventas.Controllers
             _context = context;
         }
 
-        [HttpGet("{id?}")]
-        public ActionResult<List<Producto>> Get(int? id)
+        [HttpGet("[action]")]
+        public ActionResult ConsultarProductos(DtoConsultarProducto dtoConsultarProducto)
         {
-            IEnumerable<Producto> resultado = !id.HasValue ? _context.Productos.Where(p => p.Estatus != "Inactivo").ToList() :
-                     _context.Productos.Where(s => s.IdProducto == id && s.Estatus != "Inactivo");
+            IEnumerable<Dtos.DtoProducto> resultado = !dtoConsultarProducto.Id.HasValue ? _context.Productos.Where(p => p.Estatus != "Inactivo").Select(p => new Dtos.DtoProducto() { Nombre = p.NombreProducto, CostoPz = p.CostoPz, CostoPzMayoreo = p.CostoPzMayoreo,Estatus= p.Estatus }).ToList() :
+                _context.Productos.Where(s => s.IdProducto == dtoConsultarProducto.Id && s.Estatus != "Inactivo").Select(p => new Dtos.DtoProducto() { Nombre = p.NombreProducto, CostoPz = p.CostoPz, CostoPzMayoreo = p.CostoPzMayoreo, Estatus = p.Estatus }).ToList();
 			if(resultado.Count() == 0)
 				return NoContent();
 			
            return Ok(resultado);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("[action]")]
 
-        public bool Delete(int id){
+        public bool Delete(DtoConsultarProducto dtoConsultarProducto){
 
-            var res = _context.Productos.Where(p => p.IdProducto == id).ToList();
+            var res = _context.Productos.Where(p => p.IdProducto == dtoConsultarProducto.Id).ToList();
             
             res.ForEach(p => p.Estatus = "Inactivo" );
 
             _context.SaveChanges();
             
-            return (_context.Productos.Where(p => p.IdProducto == id && p.Estatus == "Activo" ).Count()
+            return (_context.Productos.Where(p => p.IdProducto == dtoConsultarProducto.Id && p.Estatus == "Activo" ).Count()
                                                                                                  == 0);
         }
 
-        [HttpPost]
-        public ActionResult Post(Producto p){
+        [HttpPost("[action]")]
+        public ActionResult Post(DtoProducto dtoProducto){
 
             _context.Productos.Add(new Producto(){
 					
-					NombreProducto = p.NombreProducto,
-					CostoPz = p.CostoPz,
-					CostoPzMayoreo  = p.CostoPzMayoreo,
-					Estatus = p.Estatus
+					NombreProducto = dtoProducto.Nombre,
+					CostoPz = dtoProducto.CostoPz,
+					CostoPzMayoreo  = dtoProducto.CostoPzMayoreo,
+					Estatus = dtoProducto.Estatus
 				
 			});
             _context.SaveChanges(); 

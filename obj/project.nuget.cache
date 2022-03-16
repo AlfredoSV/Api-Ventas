@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "H6MDKLvLse47N1CBqFE5ewWTsS2/Xx+zgW3+L+AXW/ijcZzwyqOz+y6DKMPa2wQ0kKIUcizIvZ39v+7YUX9qrg==",
+  "dgSpecHash": "ovpqZQWd/knbARV0CNmKZidYre9Ubjzd/Nue9bLgXrjWbsPNjanMWNKKP4+rAdv8mtZG/IebMujRYS3qc1u2fg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Alfredo\\Desktop\\Proyectos\\Api-Ventas\\Api-Ventas.csproj",
+  "projectFilePath": "C:\\Users\\Alfredo\\Documents\\Proyectos\\Api-Ventas\\Api-Ventas.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Alfredo\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\Alfredo\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
