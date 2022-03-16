@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Api_Ventas.Model;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Api_Ventas.Dtos;
 
 namespace Api_Ventas.Controllers
 {
@@ -22,20 +24,19 @@ namespace Api_Ventas.Controllers
             _context = context;
         }
 
-        [HttpGet("{id?}")]
-        public ActionResult<List<Sucursal>> Get(int? id)
+        [HttpGet("[action]")]
+        public ActionResult ConsultarSucursales(int? id)
         {
-            IEnumerable<Sucursal> resultado = !id.HasValue ? _context.Sucursals.Where(s => s.Estatus == "En servicio").ToList() :
+            var resultado = !id.HasValue ? _context.Sucursals.Where(s => s.Estatus == "En servicio"):
                      _context.Sucursals.Where(s => s.IdSucursal == id && s.Estatus == "En servicio");
 			if(resultado.Count() == 0)
 				return NoContent();
 			
-           return Ok(resultado);
+           return Ok(resultado.Select(s => new DtoSucursal { IdSucursal = s.IdSucursal, NombreSucrusal = s.NombreSucursal, Estatus = s.Estatus }));
         }
 
-        [HttpDelete("{id}")]
-
-        public bool Delete(int id){
+        [HttpDelete("[action]")]
+        public ActionResult EliminarSucursal(int? id){
 
             var res = _context.Sucursals.Where(s => s.IdSucursal == id).ToList();
             
@@ -43,17 +44,16 @@ namespace Api_Ventas.Controllers
 
             _context.SaveChanges();
             
-            return (_context.Sucursals.Where(s => s.IdSucursal == id && s.Estatus == "En servicio" ).Count()
-                                                                                                 == 0);
+            return Ok(new { Elimnado = !_context.Sucursals.Where(s => s.IdSucursal == id && s.Estatus == "En servicio").Any() });
 			
         }
 
-        [HttpPost]
-        public ActionResult Post(Sucursal s){
+        [HttpPost("[action]")]
+        public ActionResult CrearSucursal(DtoSucursal s){
 
             _context.Sucursals.Add(new Sucursal(){
 					
-					NombreSucursal = s.NombreSucursal,
+					NombreSucursal = s.NombreSucrusal,
 			
 					Estatus = s.Estatus
 				
@@ -64,13 +64,13 @@ namespace Api_Ventas.Controllers
 
         }
 		
-		[HttpPut]
-        public ActionResult Put(Sucursal s){
+		[HttpPut("[action]")]
+        public ActionResult EditarSucursal(DtoSucursal s){
 			
 			var res = _context.Sucursals.Where(s1 => s1.IdSucursal == s.IdSucursal).ToList();
             
             foreach(var reg in res){
-				reg.NombreSucursal = s.NombreSucursal;
+				reg.NombreSucursal = s.NombreSucrusal;
 				reg.Estatus = s.Estatus;
 			}
 			

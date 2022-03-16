@@ -36,16 +36,16 @@ namespace Api_Ventas.Controllers
         }
 
         [HttpDelete("[action]")]
-        public bool EliminarProducto(DtoEliminarProducto dtoConsultarProducto){
+        public ActionResult EliminarProducto(int? id)
+        {
 
-            var res = _context.Productos.Where(p => p.IdProducto == dtoConsultarProducto.Id).ToList();
+            var res = _context.Productos.Where(p => p.IdProducto == id).ToList();
             
             res.ForEach(p => p.Estatus = "Inactivo" );
 
             _context.SaveChanges();
             
-            return (_context.Productos.Where(p => p.IdProducto == dtoConsultarProducto.Id && p.Estatus == "Activo" ).Count()
-                                                                                                 == 0);
+            return Ok(new { Eliminado = !_context.Productos.Where(p => p.IdProducto == id && p.Estatus == "Activo").Any() });
         }
 
         [HttpPost("[action]")]
