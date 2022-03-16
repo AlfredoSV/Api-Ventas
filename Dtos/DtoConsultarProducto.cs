@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Api_Ventas.Dtos
 {
-    public class DtoConsultarProducto
+    public class DtoEliminarProducto
     {
         public int? Id {get; set;}
     }

@@ -25,10 +25,10 @@ namespace Api_Ventas.Controllers
         }
 
         [HttpGet("[action]")]
-        public ActionResult ConsultarProductos(DtoConsultarProducto dtoConsultarProducto)
+        public ActionResult ConsultarProductos(int? id)
         {
-            IEnumerable<Dtos.DtoProducto> resultado = !dtoConsultarProducto.Id.HasValue ? _context.Productos.Where(p => p.Estatus != "Inactivo").Select(p => new Dtos.DtoProducto() { Nombre = p.NombreProducto, CostoPz = p.CostoPz, CostoPzMayoreo = p.CostoPzMayoreo,Estatus= p.Estatus }).ToList() :
-                _context.Productos.Where(s => s.IdProducto == dtoConsultarProducto.Id && s.Estatus != "Inactivo").Select(p => new Dtos.DtoProducto() { Nombre = p.NombreProducto, CostoPz = p.CostoPz, CostoPzMayoreo = p.CostoPzMayoreo, Estatus = p.Estatus }).ToList();
+            IEnumerable<Dtos.DtoProducto> resultado = !id.HasValue ? _context.Productos.Where(p => p.Estatus != "Inactivo").Select(p => new Dtos.DtoProducto() {IdProducto = p.IdProducto ,NombreProducto = p.NombreProducto, CostoPz = p.CostoPz, CostoPzMayoreo = p.CostoPzMayoreo,Estatus= p.Estatus }).ToList() :
+                _context.Productos.Where(s => s.IdProducto == id && s.Estatus != "Inactivo").Select(p => new Dtos.DtoProducto() {IdProducto = p.IdProducto, NombreProducto = p.NombreProducto, CostoPz = p.CostoPz, CostoPzMayoreo = p.CostoPzMayoreo, Estatus = p.Estatus }).ToList();
 			if(resultado.Count() == 0)
 				return NoContent();
 			
@@ -36,8 +36,7 @@ namespace Api_Ventas.Controllers
         }
 
         [HttpDelete("[action]")]
-
-        public bool Delete(DtoConsultarProducto dtoConsultarProducto){
+        public bool EliminarProducto(DtoEliminarProducto dtoConsultarProducto){
 
             var res = _context.Productos.Where(p => p.IdProducto == dtoConsultarProducto.Id).ToList();
             
@@ -50,11 +49,11 @@ namespace Api_Ventas.Controllers
         }
 
         [HttpPost("[action]")]
-        public ActionResult Post(DtoProducto dtoProducto){
+        public ActionResult CrearProducto(DtoProducto dtoProducto){
 
             _context.Productos.Add(new Producto(){
 					
-					NombreProducto = dtoProducto.Nombre,
+					NombreProducto = dtoProducto.NombreProducto,
 					CostoPz = dtoProducto.CostoPz,
 					CostoPzMayoreo  = dtoProducto.CostoPzMayoreo,
 					Estatus = dtoProducto.Estatus
@@ -66,16 +65,16 @@ namespace Api_Ventas.Controllers
 
         }
 		
-		[HttpPut]
-        public ActionResult Put(Producto p){
+		[HttpPut("[action]")]
+        public ActionResult EditarProducto(DtoProducto dtoProducto){
 			
-			var res = _context.Productos.Where(pro => pro.IdProducto == p.IdProducto).ToList();
+			var res = _context.Productos.Where(pro => pro.IdProducto == dtoProducto.IdProducto).ToList();
             
             foreach(var reg in res){
-				reg.NombreProducto = p.NombreProducto;
-				reg.CostoPz = p.CostoPz;
-				reg.CostoPzMayoreo  = p.CostoPzMayoreo;
-				reg.Estatus = p.Estatus;
+				reg.NombreProducto = dtoProducto.NombreProducto;
+				reg.CostoPz = dtoProducto.CostoPz;
+				reg.CostoPzMayoreo  = dtoProducto.CostoPzMayoreo;
+				reg.Estatus = dtoProducto.Estatus;
 			}
 			
             

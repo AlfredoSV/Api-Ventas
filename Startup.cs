@@ -34,7 +34,7 @@ namespace Api_Ventas
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Api_Ventas", Version = "v1" });
             });
-
+            
 
             services.AddDbContext<VentasContext>(options =>
                  options.UseSqlServer(Configuration.GetConnectionString("db")));
@@ -61,6 +61,8 @@ namespace Api_Ventas
             {
                 endpoints.MapControllers();
             });
+
+            
         }
     }
 }
