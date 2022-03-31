@@ -17,8 +17,7 @@ namespace Api_Ventas.Controllers
     {
      
         private readonly VentasContext _context;
-
-        
+       
         public SucursalesController(VentasContext context)
         {
             _context = context;
